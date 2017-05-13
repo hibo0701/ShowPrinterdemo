@@ -1,5 +1,5 @@
-# ShowPrinterdemo
+# Brief Introduction
 
-**record of learning ofopenframeworks**
+**Record of learning openframeworks**
 
-this is a simulation of 3D printer's print process
+This is a simulation of print procedure  for  minifab, a SLC 3D printer's.
