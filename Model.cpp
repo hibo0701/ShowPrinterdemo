@@ -12,11 +12,12 @@ void Model::model_Init()
 {
 	model.loadModel("model.stl");
 	model.setPosition(0, 0, 0);
+	model.setScale(0.3, 0.3, modelHeight);
 }
 
 void Model::modelAppend()
 {
-	modelHeight += 0.1;
+	modelHeight += 0.01;
 	model.setScale(1, 1, modelHeight);
 }
 
