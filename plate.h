@@ -9,10 +9,10 @@ public:
 	void plate_Init();
 	void setPlate_Up();
 	void setPlate_Down();
-	float getPlateHeight();
+	float getPlateZ();
 	void plateDraw();
 private:
-	float plateHeight;
+	float plateZ=0;
 	ofxAssimpModelLoader _plate;
 };
 

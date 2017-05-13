@@ -11,7 +11,7 @@ uvLed::~uvLed()
 void uvLed::led_Init()
 {
 	uvled.loadModel("uvled.stl");
-	uvled.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 0);
+	uvled.setPosition(0,0, 0);
 }
 
 void uvLed::setLedOn()

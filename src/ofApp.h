@@ -4,6 +4,7 @@
 #include "ofxAssimpModelLoader.h"
 #include "../uvLed.h"
 #include "../plate.h"
+#include "../Model.h"
 
 class ofApp : public ofBaseApp{
 	public:
@@ -25,5 +26,6 @@ class ofApp : public ofBaseApp{
 	private:
 		uvLed uvled;
 		plate _plate;
+		Model model;
 		ofEasyCam cam;
 };

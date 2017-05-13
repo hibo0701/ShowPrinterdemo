@@ -11,16 +11,20 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(255, 255, 255);
+	ofSetFrameRate(60);//让图形边缘平滑
+
 	uvled.led_Init();
 	_plate.plate_Init();
+	model.model_Init();
 
-	cam.setPosition(ofGetWidth()/ 2, ofGetHeight() / 2, cam.getDistance());
-	cam.setDistance(1500);
 	
-	cam.orbit(0, 60, cam.getDistance());
+	cam.setDistance(800);
+	//ofVec3f point=ofVec3f(0, 0, 0);
+	//cam.lookAt(point);
+	cam.orbit(0, 70, cam.getDistance());
 	
 	cam.setDrag(0.5);
-	//ofSetVerticalSync(true);
+	//ofSetVerticalSync(true);//开启垂直同步
 
 	//some model / light stuff
 	ofEnableDepthTest();
@@ -54,16 +58,22 @@ void ofApp::setup(){
 void ofApp::update(){
 	//uvled.setRotation(1, 270 + ofGetElapsedTimef() * 60, 0, 0, 1);
 	//_plate.setPlate_Up();
+	//model.setModelUp();
 	
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	//cam.setPosition(500,0,0);
 	cam.begin();
-	
+	//cam.truck(1);
+	//cam.dolly(1);
+	//cam.boom(1);
+	//cam.pan(-0.1);
 	uvled.ledDraw();
 	_plate.plateDraw();
-	
+	model.modelDraw();
+
 	cam.end();
 	////fake back wall
 	/*ofSetColor(20, 20, 20);
