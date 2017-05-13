@@ -173,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="plate.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="Model.h" />
     <ClInclude Include="plate.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.h" />

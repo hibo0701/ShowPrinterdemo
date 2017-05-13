@@ -40,6 +40,7 @@
     <ClCompile Include="uvLed.cpp" />
     <ClCompile Include="plate.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Platform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -296,6 +297,7 @@
     <ClInclude Include="uvLed.h" />
     <ClInclude Include="plate.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Platform.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

@@ -5,6 +5,7 @@
 #include "../uvLed.h"
 #include "../plate.h"
 #include "../Model.h"
+#include "../Platform.h"
 
 class ofApp : public ofBaseApp{
 	public:
@@ -27,5 +28,6 @@ class ofApp : public ofBaseApp{
 		uvLed uvled;
 		plate _plate;
 		Model model;
+		Platform platform;
 		ofEasyCam cam;
 };

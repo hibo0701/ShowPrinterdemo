@@ -10,7 +10,7 @@ plate::~plate()
 
 void plate::plate_Init()
 {
-	_plate.loadModel("plate1.stl",20);
+	_plate.loadModel("plate.stl",20);
 	_plate.setPosition(0, 0, 0);
 }
 

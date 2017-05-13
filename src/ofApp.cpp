@@ -10,12 +10,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(255, 255, 255);
+	ofBackground(20, 20, 20);
 	ofSetFrameRate(60);//»√Õº–Œ±ﬂ‘µ∆Ωª¨
 
 	uvled.led_Init();
 	_plate.plate_Init();
 	model.model_Init();
+	platform.init();
 
 	
 	cam.setDistance(800);
@@ -73,6 +74,7 @@ void ofApp::draw(){
 	uvled.ledDraw();
 	_plate.plateDraw();
 	model.modelDraw();
+	platform.platformDraw();
 
 	cam.end();
 	////fake back wall
