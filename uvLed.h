@@ -13,7 +13,7 @@ public:
 	bool getLedOn();
 	void ledDraw();
 private:
-	bool ledOn=true;
+	bool ledOn=false;
 	ofxAssimpModelLoader uvled;
 };
 

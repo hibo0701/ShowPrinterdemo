@@ -20,36 +20,128 @@ void ofApp::setup(){
 	//ofVec3f point=ofVec3f(0, 0, 0);
 	//cam.lookAt(point);
 	//ofSetVerticalSync(true);//开启垂直同步
-	
+
+
+	// Directional Lights emit light based on their orientation, regardless of their position //
+	light_Above.setDiffuseColor(ofColor(0.f, 0.f, 255.f));
+	light_Above.setSpecularColor(ofColor(255.f, 255.f, 255.f));
+	light_Above.setDirectional();
+
+	light_Above.setOrientation(ofVec3f(0, 90, 0));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	
-	_plate.setPlate_Up();
-	model.setModelUp();
-	//model.modelAppend();
-
-	//uvled.setRotation(1, 270 + ofGetElapsedTimef() * 60, 0, 0, 1);
+	switch (STATE)
+	{
+	case FINDHOME:
+		{
+			if (goState == UP)
+			{
+				_plate.setPlate_Up();
+				model.setModelUp();
+				cout << "going up" << endl;
+			}
+			if (goState == DOWN)
+			{
+				_plate.setPlate_Down();
+				model.setModelDown();
+				cout << "going down" << endl;
+			}
+			
+			tempPosition = _plate.getPlateZ();
+			if (tempPosition <= homePosition)
+			{
+				homeCount++;
+				
+				Sleep(stopTime);
+				goState = UP;
+				if (homeCount == 2)
+				{
+					STATE = PRINTCYCLE;
+					goState = DOWN;
+					cout << "I got home" << endl;
+				}
+			}
+			if (tempPosition > normalHeight)
+			{
+				goState = DOWN;
+			}
+			break;
+		}
+	case PRINTCYCLE:
+		{
+			if (goState == UP)
+			{
+				_plate.setPlate_Up();
+				model.setModelUp();
+				cout << "going up" << endl;
+			}
+			if (goState == DOWN)
+			{
+				_plate.setPlate_Down();
+				model.setModelDown();
+				cout << "going down" << endl;
+			}
+			if (goState == STOP)
+			{
+				cout << "exposing" << endl;
+				Sleep(stopTime);
+				model.modelAppend();
+				uvled.setLedOff();
+				goState = UP;
+			}
+			tempPosition = _plate.getPlateZ();
+			if (goState==DOWN&&tempPosition <= minimalHeight)
+			{
+				uvled.setLedOn();
+				goState = STOP;
+			}
+			if (tempPosition > normalHeight)
+			{
+				goState = DOWN;
+			}
+			if (model.getModelHeight() >= 0.1)
+			{
+				STATE = FINISH;
+			}
+			break;
+		}
+			
+	case FINISH:
+		{
+			_plate.setPlate_Up();
+			model.setModelUp();
+			tempPosition = _plate.getPlateZ();
+			if (tempPosition >= maximalHeight)
+			{
+				STATE = FREE;
+				std::cout << "finish" << endl;
+			}
+			break;
+		}	
+	}
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	cam.begin();
+	light_Above.enable();
 
 	uvled.ledDraw();
 	_plate.plateDraw();
 	model.modelDraw();
 	platform.platformDraw();
 
+	light_Above.disable();
 	cam.end();
 	ofSetColor(255, 255, 255);
 	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate(), 2), 10, 15);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
+void ofApp::keyPressed(int key) {
+	
 }
 
 //--------------------------------------------------------------
