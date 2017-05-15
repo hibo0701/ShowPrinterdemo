@@ -4,7 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(20, 20, 20);
-	ofSetWindowTitle("Minifab");
+	ofSetWindowTitle("Minifab Schematic");
 	ofSetFrameRate(60);//»√Õº–Œ±ﬂ‘µ∆Ωª¨
 
 	uvled.led_Init();
@@ -35,12 +35,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//cam.setPosition(500,0,0);
 	cam.begin();
-	//cam.truck(1);
-	//cam.dolly(1);
-	//cam.boom(1);
-	//cam.pan(-0.1);
+
 	uvled.ledDraw();
 	_plate.plateDraw();
 	model.modelDraw();
