@@ -11,9 +11,10 @@ public:
 	void setPlate_Down();
 	float getPlateZ();
 	void plateDraw();
+	void setSpeed(float a);
 private:
 	float plateZ=200;
-	float goSpeed = 1;
+	float goSpeed = 0.5;
 	ofxAssimpModelLoader _plate;
 };
 

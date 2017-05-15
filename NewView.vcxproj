@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.cpp" />
     <ClCompile Include="..\..\..\addons\ofxDatGui\src\ofxDatGui.cpp" />
     <ClCompile Include="..\..\..\addons\ofxProgressBar\src\ofxProgressBar.cpp" />
+    <ClCompile Include="uiControl.cpp" />
     <ClCompile Include="uvLed.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +255,7 @@
     <ClInclude Include="..\..\..\addons\ofxDatGui\src\themes\ofxDatGuiTheme.h" />
     <ClInclude Include="..\..\..\addons\ofxDatGui\src\themes\ofxDatGuiThemes.h" />
     <ClInclude Include="..\..\..\addons\ofxProgressBar\src\ofxProgressBar.h" />
+    <ClInclude Include="uiControl.h" />
     <ClInclude Include="uvLed.h" />
   </ItemGroup>
   <ItemGroup>

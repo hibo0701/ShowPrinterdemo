@@ -7,6 +7,7 @@
 #include "../Model.h"
 #include "../Platform.h"
 #include "ofLight.h"
+#include "../uiControl.h"
 
 class ofApp : public ofBaseApp{
 	public:
@@ -14,6 +15,7 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 
+	
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y);
@@ -26,13 +28,14 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 private:
+		uiControl gui;
 		uvLed uvled;
 		plate _plate;
 		Model model;
 		Platform platform;
 		ofEasyCam cam;
 		ofLight light_Above;
-		int STATE;
+		int STATE=FINDHOME;
 		enum STATE { FINDHOME, PRINTCYCLE, FINISH,FREE };
 		float homePosition=50;
 		float tempPosition=0;
@@ -43,7 +46,7 @@ private:
 		float normalHeight=100;
 		float minimalHeight=0;
 		float maximalHeight=300;
-		int homeCount=0,goState=0;
+		int homeCount=0,goState=DOWN;
 		enum goState{DOWN,UP,GOT,STOP};
 
 };

@@ -10,6 +10,8 @@ plate::~plate()
 
 void plate::plate_Init()
 {
+	plateZ = 200;
+	goSpeed = 0.5;
 	_plate.loadModel("plate.stl",20);
 	_plate.setPosition(0, 0, plateZ);
 	_plate.setScale(0.7, 0.7, 0.7);
@@ -36,4 +38,9 @@ void plate::plateDraw()
 {
 	ofSetColor(255, 0, 0, 255);
 	_plate.drawFaces();
+}
+
+void plate::setSpeed(float a)
+{
+	goSpeed = a;
 }

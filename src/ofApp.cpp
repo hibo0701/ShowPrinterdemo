@@ -3,20 +3,33 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(20, 20, 20);
+	ofSetBackgroundColor(20, 20, 20);
 	ofSetWindowTitle("Minifab Schematic");
 	ofSetFrameRate(60);//让图形边缘平滑
-
+	gui.setup();
 	uvled.led_Init();
 	_plate.plate_Init();
 	model.model_Init();
 	platform.init();
 
+	STATE = STOP;
+	homePosition = 50;
+	tempPosition = 0;
+	stopTime = 1000;
+	exposedTime = 3000;
+	lastTime = 0;
+	needGetLastTime = 1;
+	normalHeight = 100;
+	minimalHeight = 0;
+	maximalHeight = 300;
+	homeCount = 0;
+	goState = DOWN;
+
 	cam.setDistance(800);
 	
 	cam.orbit(0, 70, cam.getDistance());	
 	cam.setDrag(0.5);
-	ofEnableDepthTest();
+	
 	//ofVec3f point=ofVec3f(0, 0, 0);
 	//cam.lookAt(point);
 	//ofSetVerticalSync(true);//开启垂直同步
@@ -32,6 +45,20 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	if (gui.start)
+	{
+		STATE = FINDHOME;
+		gui.start = false;
+	}
+	if (gui.reset)
+	{
+		gui.~uiControl();
+		ofApp::setup();
+		gui.reset = false;
+		gui.speed = 0.5;
+	}
+	model.setSpeed(gui.speed);
+	_plate.setSpeed(gui.speed);
 	switch (STATE)
 	{
 	case FINDHOME:
@@ -127,7 +154,7 @@ void ofApp::update(){
 			{
 				goState = DOWN;
 			}
-			if (model.getModelHeight() >= 0.1)
+			if (model.getModelHeight() >= 1)
 			{
 				STATE = FINISH;
 			}
@@ -151,16 +178,20 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+	ofEnableDepthTest();
 	cam.begin();
+	ofEnableLighting();
 	light_Above.enable();
-
+	
 	uvled.ledDraw();
 	_plate.plateDraw();
 	model.modelDraw();
 	platform.platformDraw();
 
 	light_Above.disable();
+	ofDisableLighting();
 	cam.end();
+	ofDisableDepthTest();
 	ofSetColor(255, 255, 255);
 	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate(), 2), 10, 15);
 }

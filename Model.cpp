@@ -10,6 +10,9 @@ Model::~Model()
 
 void Model::model_Init()
 {
+	modelHeight = 0;
+	modelZ = 200;
+	goSpeed = 0.5;
 	model.loadModel("model.stl");
 	model.setPosition(0, 0, modelZ);
 	model.setScale(0.3, 0.3, -modelHeight);
@@ -17,7 +20,7 @@ void Model::model_Init()
 
 void Model::modelAppend()
 {
-	modelHeight += 0.01;
+	modelHeight += 0.03;
 	model.setScale(0.3, 0.3, -modelHeight);
 }
 
@@ -42,4 +45,8 @@ void Model::modelDraw()
 {
 	ofSetColor(0, 0, 255, 255);
 	model.drawFaces();
+}
+void Model::setSpeed(float a)
+{
+	goSpeed = a;
 }

@@ -41,6 +41,7 @@
     <ClCompile Include="plate.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="uiControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -298,6 +299,7 @@
     <ClInclude Include="plate.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Platform.h" />
+    <ClInclude Include="uiControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

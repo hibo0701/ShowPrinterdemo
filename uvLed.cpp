@@ -10,8 +10,9 @@ uvLed::~uvLed()
 
 void uvLed::led_Init()
 {
+	ledOn = false;
 	uvled.loadModel("uvled.stl");
-	uvled.setPosition(0,0, 0);
+	uvled.setPosition(0,0, -100);
 }
 
 void uvLed::setLedOn()
