@@ -52,16 +52,29 @@ void ofApp::update(){
 			tempPosition = _plate.getPlateZ();
 			if (tempPosition <= homePosition)
 			{
-				homeCount++;
 				
-				Sleep(stopTime);
-				goState = UP;
-				if (homeCount == 2)
+				if (needGetLastTime)
 				{
-					STATE = PRINTCYCLE;
-					goState = DOWN;
-					cout << "I got home" << endl;
+					lastTime = ofGetSystemTime();
+					needGetLastTime = 0;
+					cout << "--------------2s start---------------" << endl;
 				}
+				goState = STOP;
+				if (ofGetSystemTime() - lastTime >= stopTime)
+				{
+					needGetLastTime = 1;
+					homeCount++;
+					cout << "--------------2s arrive-----------------" << endl;
+					goState = UP;
+					if (homeCount == 2)
+					{
+						STATE = PRINTCYCLE;
+						goState = DOWN;
+						cout << "I got home" << endl;
+					}
+
+				}
+				
 			}
 			if (tempPosition > normalHeight)
 			{
@@ -85,11 +98,24 @@ void ofApp::update(){
 			}
 			if (goState == STOP)
 			{
+				if (needGetLastTime)
+				{
+					lastTime = ofGetSystemTime();
+					needGetLastTime = 0;
+					cout << "--------------3s start---------------" << endl;
+				}
+				goState = STOP;
+				if (ofGetSystemTime() - lastTime >= exposedTime)
+				{
+					needGetLastTime = 1;
+					cout << "--------------3s end---------------" << endl;
+					model.modelAppend();
+					uvled.setLedOff();
+					goState = UP;
+				}
+
 				cout << "exposing" << endl;
-				Sleep(stopTime);
-				model.modelAppend();
-				uvled.setLedOff();
-				goState = UP;
+				
 			}
 			tempPosition = _plate.getPlateZ();
 			if (goState==DOWN&&tempPosition <= minimalHeight)
