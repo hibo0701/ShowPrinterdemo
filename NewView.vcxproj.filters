@@ -300,8 +300,13 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="uiControl.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
+    <ResourceCompile Include="NewView.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="minifab.ico" />
   </ItemGroup>
 </Project>

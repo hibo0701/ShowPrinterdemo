@@ -147,11 +147,13 @@ void ofApp::update(){
 			tempPosition = _plate.getPlateZ();
 			if (goState==DOWN&&tempPosition <= minimalHeight)
 			{
+				minimalHeight += 2.5;
 				uvled.setLedOn();
 				goState = STOP;
 			}
 			if (tempPosition > normalHeight)
 			{
+				normalHeight += 2.5;
 				goState = DOWN;
 			}
 			if (model.getModelHeight() >= 1)

@@ -20,7 +20,7 @@ void Model::model_Init()
 
 void Model::modelAppend()
 {
-	modelHeight += 0.03;
+	modelHeight += 0.02;
 	model.setScale(0.3, 0.3, -modelHeight);
 }
 
