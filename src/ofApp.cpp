@@ -1,5 +1,5 @@
 #include "ofApp.h"
-
+#include "Windows.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -172,6 +172,8 @@ void ofApp::update(){
 			{
 				STATE = FREE;
 				std::cout << "finish" << endl;
+				MessageBox(NULL, TEXT("FINISH"), TEXT("FINISH"), MB_OK);
+				
 			}
 			break;
 		}	
