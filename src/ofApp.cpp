@@ -184,7 +184,15 @@ void ofApp::update(){
 void ofApp::draw() {
 	ofEnableDepthTest();
 	cam.begin();
-	ofRotateZ(ofGetElapsedTimef() * 30);
+	if (gui.needRotateToggle->getChecked())
+	{
+		rotateAngle += 0.2;
+		ofRotateZ(rotateAngle);
+	}
+	else
+	{
+		rotateAngle = 0;
+	}
 	ofEnableLighting();
 	light_Above.enable();
 	

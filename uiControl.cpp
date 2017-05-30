@@ -11,6 +11,7 @@ void uiControl::setup()
 	gui->addButton("START");
 	gui->addColorPicker("BACKGROUND");
 	//gui->add2dPad("MACHINE POSITION");
+	needRotateToggle = gui->addToggle("ROTATE", false);
 	gui->addButton("RESET");
 	gui->addFooter();
 	gui->onButtonEvent(this, &uiControl::onButtonEvent);
@@ -42,6 +43,10 @@ void uiControl::onSliderEvent(ofxDatGuiSliderEvent e)
 	{
 		speed=e.target->getValue();
 	}
+}
+void uiControl::onToggleEvent(ofxDatGuiToggleEvent e)
+{
+	
 }
 //void uiControl::on2dPadEvent(ofxDatGui2dPadEvent e)
 //{

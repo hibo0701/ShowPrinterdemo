@@ -48,5 +48,5 @@ private:
 		float maximalHeight=300;
 		int homeCount=0,goState=DOWN;
 		enum goState{DOWN,UP,GOT,STOP};
-
+		float rotateAngle = 0;
 };
