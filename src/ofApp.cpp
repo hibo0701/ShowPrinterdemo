@@ -26,20 +26,13 @@ void ofApp::setup(){
 	goState = DOWN;
 
 	cam.setDistance(800);
-	
 	cam.orbit(0, 70, cam.getDistance());	
 	cam.setDrag(0.5);
-	
-	//ofVec3f point=ofVec3f(0, 0, 0);
-	//cam.lookAt(point);
-	//ofSetVerticalSync(true);//开启垂直同步
+	ofSetVerticalSync(true);//开启垂直同步
 
-
-	// Directional Lights emit light based on their orientation, regardless of their position //
 	light_Above.setDiffuseColor(ofColor(0.f, 0.f, 255.f));
 	light_Above.setSpecularColor(ofColor(255.f, 255.f, 255.f));
 	light_Above.setDirectional();
-
 	light_Above.setOrientation(ofVec3f(0, 90, 0));
 }
 
@@ -49,6 +42,7 @@ void ofApp::update(){
 	{
 		STATE = FINDHOME;
 		gui.start = false;
+		textState = FINDNIG_HOME;
 	}
 	if (gui.reset)
 	{
@@ -67,13 +61,11 @@ void ofApp::update(){
 			{
 				_plate.setPlate_Up();
 				model.setModelUp();
-				cout << "going up" << endl;
 			}
 			if (goState == DOWN)
 			{
 				_plate.setPlate_Down();
 				model.setModelDown();
-				cout << "going down" << endl;
 			}
 			
 			tempPosition = _plate.getPlateZ();
@@ -84,20 +76,18 @@ void ofApp::update(){
 				{
 					lastTime = ofGetSystemTime();
 					needGetLastTime = 0;
-					cout << "--------------2s start---------------" << endl;
 				}
 				goState = STOP;
+				if (homeCount == 1) textState = GOT_HOME;
 				if (ofGetSystemTime() - lastTime >= stopTime)
 				{
 					needGetLastTime = 1;
 					homeCount++;
-					cout << "--------------2s arrive-----------------" << endl;
 					goState = UP;
 					if (homeCount == 2)
 					{
 						STATE = PRINTCYCLE;
 						goState = DOWN;
-						cout << "I got home" << endl;
 					}
 
 				}
@@ -115,13 +105,13 @@ void ofApp::update(){
 			{
 				_plate.setPlate_Up();
 				model.setModelUp();
-				cout << "going up" << endl;
+				textState = GOING_UP;
 			}
 			if (goState == DOWN)
 			{
 				_plate.setPlate_Down();
 				model.setModelDown();
-				cout << "going down" << endl;
+				textState = GOING_DOWN;
 			}
 			if (goState == STOP)
 			{
@@ -129,19 +119,17 @@ void ofApp::update(){
 				{
 					lastTime = ofGetSystemTime();
 					needGetLastTime = 0;
-					cout << "--------------3s start---------------" << endl;
 				}
 				goState = STOP;
 				if (ofGetSystemTime() - lastTime >= exposedTime)
 				{
-					needGetLastTime = 1;
-					cout << "--------------3s end---------------" << endl;
+					needGetLastTime = true;
 					model.modelAppend();
 					uvled.setLedOff();
 					goState = UP;
 				}
 
-				cout << "exposing" << endl;
+				textState = EXPOSING;
 				
 			}
 			tempPosition = _plate.getPlateZ();
@@ -171,9 +159,7 @@ void ofApp::update(){
 			if (tempPosition >= maximalHeight)
 			{
 				STATE = FREE;
-				std::cout << "finish" << endl;
 				MessageBox(NULL, TEXT("FINISH"), TEXT("FINISH"), MB_OK);
-				
 			}
 			break;
 		}	
@@ -206,7 +192,40 @@ void ofApp::draw() {
 	cam.end();
 	ofDisableDepthTest();
 	ofSetColor(255, 255, 255);
+	drawText();
+}
+
+//--------------------------------------------------------------
+void ofApp::drawText()
+{
 	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate(), 2), 10, 15);
+	switch (textState)
+	{
+		case FINDNIG_HOME:
+		{
+			ofDrawBitmapString("STATE: FINDNIG HOME ", 10, 30);
+			break;
+		}
+		case GOING_UP:
+		{
+			ofDrawBitmapString("STATE: GOING UP " , 10, 30);
+			break;
+		}
+		case GOING_DOWN:
+		{
+			ofDrawBitmapString("STATE: GOING DOWN TO THE NEXT LAYER", 10, 30);
+			break;
+		}
+		case GOT_HOME:
+		{
+			ofDrawBitmapString("STATE: GOT HOME POSITION", 10, 30);
+			break;
+		}
+		case EXPOSING:
+		{
+			ofDrawBitmapString("STATE: EXPOSING NOW", 10, 30);
+		}
+	}
 }
 
 //--------------------------------------------------------------

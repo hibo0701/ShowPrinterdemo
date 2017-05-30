@@ -14,6 +14,7 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		void drawText();
 
 	
 		void keyPressed(int key);
@@ -47,6 +48,8 @@ private:
 		float minimalHeight=0;
 		float maximalHeight=300;
 		int homeCount=0,goState=DOWN;
-		enum goState{DOWN,UP,GOT,STOP};
+		enum goStates{DOWN,UP,GOT,STOP};
+		int textState = 5;
+		enum textStates{ FINDNIG_HOME,GOING_UP,GOING_DOWN, GOT_HOME, EXPOSING,null};
 		float rotateAngle = 0;
 };
