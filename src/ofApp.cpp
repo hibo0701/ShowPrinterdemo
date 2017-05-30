@@ -2,38 +2,9 @@
 #include "Windows.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-	ofSetBackgroundColor(20, 20, 20);
-	ofSetWindowTitle("Minifab Schematic");
-	ofSetFrameRate(60);//让图形边缘平滑
-	gui.setup();
-	uvled.led_Init();
-	_plate.plate_Init();
-	model.model_Init();
-	platform.init();
-
-	STATE = STOP;
-	homePosition = 50;
-	tempPosition = 0;
-	stopTime = 1000;
-	exposedTime = 3000;
-	lastTime = 0;
-	needGetLastTime = 1;
-	normalHeight = 100;
-	minimalHeight = 0;
-	maximalHeight = 300;
-	homeCount = 0;
-	goState = DOWN;
-
-	cam.setDistance(800);
-	cam.orbit(0, 70, cam.getDistance());	
-	cam.setDrag(0.5);
-	ofSetVerticalSync(true);//开启垂直同步
-
-	light_Above.setDiffuseColor(ofColor(0.f, 0.f, 255.f));
-	light_Above.setSpecularColor(ofColor(255.f, 255.f, 255.f));
-	light_Above.setDirectional();
-	light_Above.setOrientation(ofVec3f(0, 90, 0));
+void ofApp::setup()
+{
+	init();
 }
 
 //--------------------------------------------------------------
@@ -46,10 +17,7 @@ void ofApp::update(){
 	}
 	if (gui.reset)
 	{
-		gui.~uiControl();
-		ofApp::setup();
-		gui.reset = false;
-		gui.speed = 0.5;
+		reset();
 	}
 	model.setSpeed(gui.speed);
 	_plate.setSpeed(gui.speed);
@@ -57,110 +25,18 @@ void ofApp::update(){
 	{
 	case FINDHOME:
 		{
-			if (goState == UP)
-			{
-				_plate.setPlate_Up();
-				model.setModelUp();
-			}
-			if (goState == DOWN)
-			{
-				_plate.setPlate_Down();
-				model.setModelDown();
-			}
-			
-			tempPosition = _plate.getPlateZ();
-			if (tempPosition <= homePosition)
-			{
-				
-				if (needGetLastTime)
-				{
-					lastTime = ofGetSystemTime();
-					needGetLastTime = 0;
-				}
-				goState = STOP;
-				if (homeCount == 1) textState = GOT_HOME;
-				if (ofGetSystemTime() - lastTime >= stopTime)
-				{
-					needGetLastTime = 1;
-					homeCount++;
-					goState = UP;
-					if (homeCount == 2)
-					{
-						STATE = PRINTCYCLE;
-						goState = DOWN;
-					}
-
-				}
-				
-			}
-			if (tempPosition > normalHeight)
-			{
-				goState = DOWN;
-			}
+			findHome();
 			break;
 		}
 	case PRINTCYCLE:
 		{
-			if (goState == UP)
-			{
-				_plate.setPlate_Up();
-				model.setModelUp();
-				textState = GOING_UP;
-			}
-			if (goState == DOWN)
-			{
-				_plate.setPlate_Down();
-				model.setModelDown();
-				textState = GOING_DOWN;
-			}
-			if (goState == STOP)
-			{
-				if (needGetLastTime)
-				{
-					lastTime = ofGetSystemTime();
-					needGetLastTime = 0;
-				}
-				goState = STOP;
-				if (ofGetSystemTime() - lastTime >= exposedTime)
-				{
-					needGetLastTime = true;
-					model.modelAppend();
-					uvled.setLedOff();
-					goState = UP;
-				}
-
-				textState = EXPOSING;
-				
-			}
-			tempPosition = _plate.getPlateZ();
-			if (goState==DOWN&&tempPosition <= minimalHeight)
-			{
-				minimalHeight += 2.5;
-				uvled.setLedOn();
-				goState = STOP;
-			}
-			if (tempPosition > normalHeight)
-			{
-				normalHeight += 2.5;
-				goState = DOWN;
-			}
-			if (model.getModelHeight() >= 1)
-			{
-				STATE = FINISH;
-			}
+			printCycle();
 			break;
 		}
 			
 	case FINISH:
 		{
-			_plate.setPlate_Up();
-			model.setModelUp();
-			tempPosition = _plate.getPlateZ();
-			if (tempPosition >= maximalHeight)
-			{
-				STATE = FREE;
-				MessageBox(NULL, TEXT("FINISH"), TEXT("FINISH"), MB_OK);
-			}
+			finish();
 			break;
 		}	
 	}
@@ -194,7 +70,49 @@ void ofApp::draw() {
 	ofSetColor(255, 255, 255);
 	drawText();
 }
+//--------------------------------------------------------------
+void ofApp::init()
+{
+	ofSetBackgroundColor(20, 20, 20);
+	ofSetWindowTitle("Minifab Schematic");
+	ofSetFrameRate(60);//让图形边缘平滑
+	gui.setup();
+	uvled.led_Init();
+	_plate.plate_Init();
+	model.model_Init();
+	platform.init();
 
+	STATE = STOP;
+	homePosition = 50;
+	tempPosition = 0;
+	stopTime = 1000;
+	exposedTime = 3000;
+	lastTime = 0;
+	needGetLastTime = 1;
+	normalHeight = 100;
+	minimalHeight = 0;
+	maximalHeight = 300;
+	homeCount = 0;
+	goState = DOWN;
+
+	cam.setDistance(800);
+	cam.orbit(0, 70, cam.getDistance());
+	cam.setDrag(0.5);
+	ofSetVerticalSync(true);//开启垂直同步
+
+	light_Above.setDiffuseColor(ofColor(0.f, 0.f, 255.f));
+	light_Above.setSpecularColor(ofColor(255.f, 255.f, 255.f));
+	light_Above.setDirectional();
+	light_Above.setOrientation(ofVec3f(0, 90, 0));
+}
+//--------------------------------------------------------------
+void ofApp::reset()
+{
+	gui.~uiControl();
+	ofApp::setup();
+	gui.reset = false;
+	gui.speed = 0.5;
+}
 //--------------------------------------------------------------
 void ofApp::drawText()
 {
@@ -281,4 +199,109 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::findHome()
+{
+	if (goState == UP)
+	{
+		_plate.setPlate_Up();
+		model.setModelUp();
+	}
+	if (goState == DOWN)
+	{
+		_plate.setPlate_Down();
+		model.setModelDown();
+	}
+
+	tempPosition = _plate.getPlateZ();
+	if (tempPosition <= homePosition)
+	{
+
+		if (needGetLastTime)
+		{
+			lastTime = ofGetSystemTime();
+			needGetLastTime = 0;
+		}
+		goState = STOP;
+		if (homeCount == 1) textState = GOT_HOME;
+		if (ofGetSystemTime() - lastTime >= stopTime)
+		{
+			needGetLastTime = 1;
+			homeCount++;
+			goState = UP;
+			if (homeCount == 2)
+			{
+				STATE = PRINTCYCLE;
+				goState = DOWN;
+			}
+
+		}
+
+	}
+	if (tempPosition > normalHeight)
+	{
+		goState = DOWN;
+	}
+}
+void ofApp::printCycle()
+{
+	if (goState == UP)
+	{
+		_plate.setPlate_Up();
+		model.setModelUp();
+		textState = GOING_UP;
+	}
+	if (goState == DOWN)
+	{
+		_plate.setPlate_Down();
+		model.setModelDown();
+		textState = GOING_DOWN;
+	}
+	if (goState == STOP)
+	{
+		if (needGetLastTime)
+		{
+			lastTime = ofGetSystemTime();
+			needGetLastTime = 0;
+		}
+		goState = STOP;
+		if (ofGetSystemTime() - lastTime >= exposedTime)
+		{
+			needGetLastTime = true;
+			model.modelAppend();
+			uvled.setLedOff();
+			goState = UP;
+		}
+
+		textState = EXPOSING;
+
+	}
+	tempPosition = _plate.getPlateZ();
+	if (goState == DOWN&&tempPosition <= minimalHeight)
+	{
+		minimalHeight += 2.5;
+		uvled.setLedOn();
+		goState = STOP;
+	}
+	if (tempPosition > normalHeight)
+	{
+		normalHeight += 2.5;
+		goState = DOWN;
+	}
+	if (model.getModelHeight() >= 1)
+	{
+		STATE = FINISH;
+	}
+}
+void ofApp::finish()
+{
+	_plate.setPlate_Up();
+	model.setModelUp();
+	tempPosition = _plate.getPlateZ();
+	if (tempPosition >= maximalHeight)
+	{
+		STATE = FREE;
+		MessageBox(NULL, TEXT("FINISH"), TEXT("FINISH"), MB_OK);
+	}
 }

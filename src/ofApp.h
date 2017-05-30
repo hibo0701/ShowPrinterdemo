@@ -14,7 +14,12 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		void init();
+		void reset();
 		void drawText();
+		void findHome();
+		void printCycle();
+		void finish();
 
 	
 		void keyPressed(int key);
