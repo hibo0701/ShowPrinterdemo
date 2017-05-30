@@ -17,6 +17,7 @@ void uiControl::setup()
 	gui->onSliderEvent(this, &uiControl::onSliderEvent);
 	//gui->on2dPadEvent(this, &uiControl::on2dPadEvent);
 	gui->onColorPickerEvent(this, &uiControl::onColorPickerEvent);
+	gui->setOpacity(.5);
 }
 
 uiControl::~uiControl()

@@ -166,7 +166,7 @@
     <Link>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
