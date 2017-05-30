@@ -89,6 +89,7 @@
     <OutDir>bin\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\shared;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

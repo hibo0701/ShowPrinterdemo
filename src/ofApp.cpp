@@ -184,6 +184,7 @@ void ofApp::update(){
 void ofApp::draw() {
 	ofEnableDepthTest();
 	cam.begin();
+	ofRotateZ(ofGetElapsedTimef() * 30);
 	ofEnableLighting();
 	light_Above.enable();
 	
