@@ -59,17 +59,19 @@ void ofApp::draw() {
 	spotLight_Down.enable();
 
 	_plate.plateDraw();
-	model.modelDraw();
+	
 	platform.platformDraw();
 	spotLight_Up.enable();
 	spotLight_Up.disable(); 
 	ofDisableLighting();
+	model.modelDraw();
 	//ofEnableLighting();
 	//directionLight.enable();
+	platform.resinDraw();
 	uvled.ledDraw();
 	//directionLight.disable();
 	//ofDisableLighting();
-	platform.resinDraw();
+	
 	cam.end();
 	
 	ofDisableDepthTest();
@@ -112,13 +114,13 @@ void ofApp::init()
 	pointLight.setPosition(100, 0, 500);*/
 
 	spotLight_Up.setSpotlight();
-	spotLight_Up.setPosition(0, 0, 500);
+	spotLight_Up.setPosition( 200,0, 500);
 	spotLight_Up.lookAt(ofPoint(0, 0, 0));
 	spotLight_Up.setSpecularColor(ofFloatColor(0, 0, 1.0));
 	spotLight_Up.setSpotConcentration(5.0);
 
 	spotLight_Down.setSpotlight();
-	spotLight_Down.setPosition(0, 0, -500);
+	spotLight_Down.setPosition( -200,0, -200);
 	spotLight_Down.lookAt(ofPoint(0, 0, 0));
 	spotLight_Down.setSpecularColor(ofFloatColor(0, 0, 1.0));
 	spotLight_Down.setSpotConcentration(5.0);
@@ -154,22 +156,22 @@ void ofApp::drawText()
 		}
 		case GOING_UP:
 		{
-			ofDrawBitmapString("STATE: GOING UP " , 10, 30);
+			ofDrawBitmapString("STATE: GOING UP " , 10, 40);
 			break;
 		}
 		case GOING_DOWN:
 		{
-			ofDrawBitmapString("STATE: GOING DOWN TO THE NEXT LAYER", 10, 30);
+			ofDrawBitmapString("STATE: GOING DOWN TO THE NEXT LAYER", 10, 40);
 			break;
 		}
 		case GOT_HOME:
 		{
-			ofDrawBitmapString("STATE: GOT HOME POSITION", 10, 30);
+			ofDrawBitmapString("STATE: GOT HOME POSITION", 10, 40);
 			break;
 		}
 		case EXPOSING:
 		{
-			ofDrawBitmapString("STATE: LED ON \n       EXPOSING NOW", 10, 30);
+			ofDrawBitmapString("STATE: UVLED ON \n       EXPOSING NOW", 10, 40);
 		}
 	}
 }

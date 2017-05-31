@@ -43,7 +43,7 @@ float Model::getModelHeight()
 
 void Model::modelDraw()
 {
-	ofSetColor(0, 0, 255, 255);
+	ofSetColor(100, 255, 255, 180);
 	model.drawFaces();
 }
 void Model::setSpeed(float a)

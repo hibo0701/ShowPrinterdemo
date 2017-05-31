@@ -15,5 +15,6 @@ public:
 private:
 	bool ledOn=false;
 	ofxAssimpModelLoader uvled;
+	ofxAssimpModelLoader spotLight;
 };
 

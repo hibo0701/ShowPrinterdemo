@@ -26,6 +26,6 @@ void Platform::platformDraw()
 
 void Platform::resinDraw()
 {
-	ofSetColor(0,255,0,100);
+	ofSetColor(100,255,255,180);
 	resin.drawFaces();
 }
