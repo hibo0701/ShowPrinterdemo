@@ -9,7 +9,7 @@ void ofApp::setup()
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	if (gui.start)
+	if (gui.start||boolStart)
 	{
 		STATE = FINDHOME;
 		gui.start = false;
@@ -68,7 +68,14 @@ void ofApp::draw() {
 	//ofEnableLighting();
 	//directionLight.enable();
 	platform.resinDraw();
+	
+	ofEnableLighting();
+	ledspotLight.enable();
 	uvled.ledDraw();
+	ledspotLight.disable();
+	ofDisableLighting();
+
+	uvled.ledLightDraw();
 	//directionLight.disable();
 	//ofDisableLighting();
 	
@@ -124,11 +131,12 @@ void ofApp::init()
 	spotLight_Down.lookAt(ofPoint(0, 0, 0));
 	spotLight_Down.setSpecularColor(ofFloatColor(0, 0, 1.0));
 	spotLight_Down.setSpotConcentration(5.0);
-	/*ledspotLight.setSpotlight();
-	ledspotLight.setPosition(0, 500, 10);
-	ledspotLight.lookAt(ofPoint(0, 0, -100));
+	
+	ledspotLight.setSpotlight();
+	ledspotLight.setPosition(0, 200, 0);
+	ledspotLight.lookAt(ofPoint(0, 0, -200));
 	ledspotLight.setSpecularColor(ofFloatColor(1.0, 0, 0));
-	ledspotLight.setSpotConcentration(5.0);*/
+	ledspotLight.setSpotConcentration(5.0);
 
 	/*directionLight.setPosition(0, 0, 200);
 	directionLight.setDirectional();
@@ -178,7 +186,20 @@ void ofApp::drawText()
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	
+	switch (key) {
+	case OF_KEY_UP:
+		needRotate = true;
+		break;
+	case OF_KEY_DOWN:
+		needRotate = false;
+		break;
+	case OF_KEY_LEFT:
+		boolStart = true;
+		break;
+	case OF_KEY_RIGHT:
+		boolStart = false;
+		break;
+	}
 }
 
 //--------------------------------------------------------------
@@ -337,8 +358,9 @@ void ofApp::finish()
 }
 void ofApp::camRotate()
 {
-	if (gui.needRotateToggle->getChecked())
+	if (gui.needRotateToggle->getChecked()||needRotate)
 	{
+		//needRotate = false;
 		rotateAngle += 0.2;
 		ofRotateZ(rotateAngle);
 	}

@@ -58,4 +58,6 @@ private:
 		int textState = 5;
 		enum textStates{ FINDNIG_HOME,GOING_UP,GOING_DOWN, GOT_HOME, EXPOSING,null};
 		float rotateAngle = 0;
+		bool needRotate = false;
+		bool boolStart = false;
 };

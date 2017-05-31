@@ -11,8 +11,8 @@ uvLed::~uvLed()
 void uvLed::led_Init()
 {
 	ledOn = false;
-	uvled.loadModel("uvled.stl");
-	uvled.setScale(0.1,0.1,1);
+	uvled.loadModel("multiLed.stl");
+	uvled.setScale(1,1,1);
 	uvled.setPosition(0,0, -200);
 
 	spotLight.loadModel("spotLight.stl");
@@ -41,6 +41,13 @@ void uvLed::ledDraw()
 	{
 		ofSetColor(138, 43, 226);
 		uvled.drawFaces();
+	}	
+}
+
+void uvLed::ledLightDraw()
+{
+	if (ledOn)
+	{
 		ofRotateX(180);
 		ofSetColor(138, 43, 226,100);
 		spotLight.drawFaces();

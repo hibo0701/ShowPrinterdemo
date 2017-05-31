@@ -12,6 +12,7 @@ public:
 	void setLedOff();
 	bool getLedOn();
 	void ledDraw();
+	void ledLightDraw();
 private:
 	bool ledOn=false;
 	ofxAssimpModelLoader uvled;
