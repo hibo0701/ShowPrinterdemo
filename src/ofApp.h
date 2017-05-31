@@ -20,7 +20,7 @@ class ofApp : public ofBaseApp{
 		void findHome();
 		void printCycle();
 		void finish();
-
+		void camRotate();
 	
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -40,7 +40,8 @@ private:
 		Model model;
 		Platform platform;
 		ofEasyCam cam;
-		ofLight light_Above;
+
+		ofLight spotLight_Up,  pointLight, ledspotLight, spotLight_Down;
 		int STATE=FINDHOME;
 		enum STATE { FINDHOME, PRINTCYCLE, FINISH,FREE };
 		float homePosition=50;

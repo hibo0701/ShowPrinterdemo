@@ -46,34 +46,40 @@ void ofApp::update(){
 void ofApp::draw() {
 	ofEnableDepthTest();
 	cam.begin();
-	if (gui.needRotateToggle->getChecked())
-	{
-		rotateAngle += 0.2;
-		ofRotateZ(rotateAngle);
-	}
-	else
-	{
-		rotateAngle = 0;
-	}
-	ofEnableLighting();
-	light_Above.enable();
 	
-	uvled.ledDraw();
+	ofEnableLighting();
+	ofSetColor(255);
+	//pointLight.draw();
+	
+	//spotLight_Up.draw();
+	//directionLight.draw();
+	camRotate();
+	//pointLight.enable(); 
+	spotLight_Up.enable();
+	spotLight_Down.enable();
+
 	_plate.plateDraw();
 	model.modelDraw();
 	platform.platformDraw();
-
-	light_Above.disable();
+	spotLight_Up.enable();
+	spotLight_Up.disable(); 
 	ofDisableLighting();
+	//ofEnableLighting();
+	//directionLight.enable();
+	uvled.ledDraw();
+	//directionLight.disable();
+	//ofDisableLighting();
+	platform.resinDraw();
 	cam.end();
+	
 	ofDisableDepthTest();
-	ofSetColor(255, 255, 255);
+	ofSetColor(0, 0, 0);
 	drawText();
 }
 //--------------------------------------------------------------
 void ofApp::init()
 {
-	ofSetBackgroundColor(20, 20, 20);
+	ofSetBackgroundColor(255, 255, 255);
 	ofSetWindowTitle("Minifab Schematic");
 	ofSetFrameRate(60);//让图形边缘平滑
 	gui.setup();
@@ -96,14 +102,36 @@ void ofApp::init()
 	goState = DOWN;
 
 	cam.setDistance(800);
-	cam.orbit(0, 70, cam.getDistance());
+	cam.orbit(0, 50, cam.getDistance());
 	cam.setDrag(0.5);
 	ofSetVerticalSync(true);//开启垂直同步
 
-	light_Above.setDiffuseColor(ofColor(0.f, 0.f, 255.f));
-	light_Above.setSpecularColor(ofColor(255.f, 255.f, 255.f));
-	light_Above.setDirectional();
-	light_Above.setOrientation(ofVec3f(0, 90, 0));
+	/*pointLight.setPointLight();
+	pointLight.setPointLight();
+	pointLight.setDiffuseColor(ofFloatColor(1.0, 1.0, 1.0));
+	pointLight.setPosition(100, 0, 500);*/
+
+	spotLight_Up.setSpotlight();
+	spotLight_Up.setPosition(0, 0, 500);
+	spotLight_Up.lookAt(ofPoint(0, 0, 0));
+	spotLight_Up.setSpecularColor(ofFloatColor(0, 0, 1.0));
+	spotLight_Up.setSpotConcentration(5.0);
+
+	spotLight_Down.setSpotlight();
+	spotLight_Down.setPosition(0, 0, -500);
+	spotLight_Down.lookAt(ofPoint(0, 0, 0));
+	spotLight_Down.setSpecularColor(ofFloatColor(0, 0, 1.0));
+	spotLight_Down.setSpotConcentration(5.0);
+	/*ledspotLight.setSpotlight();
+	ledspotLight.setPosition(0, 500, 10);
+	ledspotLight.lookAt(ofPoint(0, 0, -100));
+	ledspotLight.setSpecularColor(ofFloatColor(1.0, 0, 0));
+	ledspotLight.setSpotConcentration(5.0);*/
+
+	/*directionLight.setPosition(0, 0, 200);
+	directionLight.setDirectional();
+	directionLight.setOrientation(ofPoint(0, 180, 0));
+	directionLight.setSpecularColor(ofFloatColor(138.0 / 255,43.0 / 255,226.0/255));*/
 }
 //--------------------------------------------------------------
 void ofApp::reset()
@@ -121,7 +149,7 @@ void ofApp::drawText()
 	{
 		case FINDNIG_HOME:
 		{
-			ofDrawBitmapString("STATE: FINDNIG HOME ", 10, 30);
+			ofDrawBitmapString("STATE: FINDNIG HOME ", 10, 40);
 			break;
 		}
 		case GOING_UP:
@@ -141,7 +169,7 @@ void ofApp::drawText()
 		}
 		case EXPOSING:
 		{
-			ofDrawBitmapString("STATE: EXPOSING NOW", 10, 30);
+			ofDrawBitmapString("STATE: LED ON \n       EXPOSING NOW", 10, 30);
 		}
 	}
 }
@@ -303,5 +331,17 @@ void ofApp::finish()
 	{
 		STATE = FREE;
 		MessageBox(NULL, TEXT("FINISH"), TEXT("FINISH"), MB_OK);
+	}
+}
+void ofApp::camRotate()
+{
+	if (gui.needRotateToggle->getChecked())
+	{
+		rotateAngle += 0.2;
+		ofRotateZ(rotateAngle);
+	}
+	else
+	{
+		rotateAngle = 0;
 	}
 }

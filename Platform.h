@@ -8,7 +8,9 @@ public:
 	~Platform();
 	void init();
 	void platformDraw();
+	void resinDraw();
 private:
 	ofxAssimpModelLoader platform;
+	ofxAssimpModelLoader resin;
 };
 
