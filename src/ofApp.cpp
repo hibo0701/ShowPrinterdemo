@@ -120,26 +120,26 @@ void ofApp::init()
 
 	
 	spotLight_Up.setSpotlight();
-	spotLight_Up.setPosition( 200,0, 500);
+	spotLight_Up.setPosition( 0,0, 400);
 	spotLight_Up.lookAt(ofPoint(0, 0, 0));
 	spotLight_Up.setSpecularColor(ofFloatColor(0, 0, 1.0));
 	spotLight_Up.setSpotConcentration(5.0);
 
 	spotLight_Down.setSpotlight();
-	spotLight_Down.setPosition( -200,0, 500);
-	spotLight_Down.lookAt(ofPoint(0, 0, 0));
+	spotLight_Down.setPosition( 0,-200, -100);
+	spotLight_Down.lookAt(ofPoint(-200, 0, 400));
 	spotLight_Down.setSpecularColor(ofFloatColor(0, 0, 1.0));
-	spotLight_Down.setSpotConcentration(5.0);
+	spotLight_Down.setSpotConcentration(10.0);
 	
 	ledspotLight.setSpotlight();
 	ledspotLight.setPosition(0, 200, 0);
 	ledspotLight.lookAt(ofPoint(0, 0, -200));
-	ledspotLight.setSpecularColor(ofFloatColor(1.0, 0, 0));
-	ledspotLight.setSpotConcentration(5.0);
+	ledspotLight.setSpecularColor(ofFloatColor(40.0 / 255, 40.0 / 255, 40.0 / 255));
+	ledspotLight.setSpotConcentration(10.0);
 
 	areaLight.setAreaLight(100, 100);
 	areaLight.setPosition(0, -500, -199);
-	areaLight.setDiffuseColor(ofFloatColor(138.0/255, 43.0 / 255, 226.0 / 255));
+	areaLight.setSpecularColor(ofFloatColor(138.0/255, 43.0 / 255, 226.0 / 255));
 }
 //--------------------------------------------------------------
 void ofApp::reset()
@@ -152,7 +152,7 @@ void ofApp::reset()
 //--------------------------------------------------------------
 void ofApp::drawText()
 {
-	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate(), 2), 10, 15);
+	//ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate(), 2), 10, 15);
 	switch (textState)
 	{
 		case FINDNIG_HOME:
@@ -338,7 +338,7 @@ void ofApp::printCycle()
 		normalHeight += 2.5;
 		goState = DOWN;
 	}
-	if (model.getModelHeight() >= 1)
+	if (model.getModelHeight() >= realModelHeight)
 	{
 		STATE = FINISH;
 	}
@@ -358,12 +358,24 @@ void ofApp::camRotate()
 {
 	if (gui.needRotateToggle->getChecked()||needRotate)
 	{
-		//needRotate = false;
-		rotateAngle += 0.2;
-		ofRotateZ(rotateAngle);
+			
+			if (rotateAngleX >= -14)
+			{
+				ofRotateX(rotateAngleX);
+				rotateAngleX -= 0.2;
+			}		
+			else
+			{
+				ofRotateX(-14);
+				ofRotateZ(rotateAngle);
+				rotateAngle += 0.2;
+			}
+			
 	}
 	else
 	{
 		rotateAngle = 0;
+		rotateAngleX = 0;
+		rotateX = true;
 	}
 }

@@ -39,7 +39,7 @@ void uvLed::ledDraw()
 {
 	//if (ledOn)
 	//{
-		ofSetColor(138, 43, 226);
+		ofSetColor(190,214,220);
 		uvled.drawFaces();
 	//}	
 }

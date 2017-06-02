@@ -52,7 +52,8 @@ private:
 		bool needGetLastTime=1;
 		float normalHeight=100;
 		float minimalHeight=0;
-		float maximalHeight=300;
+		float maximalHeight=120;
+		float realModelHeight = 0.1;
 		int homeCount=0,goState=DOWN;
 		enum goStates{DOWN,UP,GOT,STOP};
 		int textState = 5;
@@ -60,4 +61,6 @@ private:
 		float rotateAngle = 0;
 		bool needRotate = false;
 		bool boolStart = false;
+		bool rotateX = false;
+		float rotateAngleX = 0;
 };
