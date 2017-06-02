@@ -44,44 +44,47 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	ofEnableDepthTest();
+	
 	cam.begin();
-	
-	ofEnableLighting();
-	ofSetColor(255);
-	//pointLight.draw();
-	
-	//spotLight_Up.draw();
-	//directionLight.draw();
 	camRotate();
-	//pointLight.enable(); 
+	uvled.ledLightDraw();
+	ofEnableDepthTest();
+	ofEnableLighting();
+	
 	spotLight_Up.enable();
 	spotLight_Down.enable();
 
 	_plate.plateDraw();
 	
 	platform.platformDraw();
-	spotLight_Up.enable();
+	spotLight_Down.disable();
 	spotLight_Up.disable(); 
 	ofDisableLighting();
 	model.modelDraw();
-	//ofEnableLighting();
-	//directionLight.enable();
+	
 	platform.resinDraw();
 	
 	ofEnableLighting();
+	//areaLight.draw();
 	ledspotLight.enable();
+	if(uvled.getLedOn()) areaLight.enable();
 	uvled.ledDraw();
+	if (uvled.getLedOn()) areaLight.disable();
 	ledspotLight.disable();
 	ofDisableLighting();
 
-	uvled.ledLightDraw();
-	//directionLight.disable();
+	//ofEnableLighting();
+	
+	//uvled.ledDraw();
+	
 	//ofDisableLighting();
+	
+	
+
+	ofDisableDepthTest();
 	
 	cam.end();
 	
-	ofDisableDepthTest();
 	ofSetColor(0, 0, 0);
 	drawText();
 }
@@ -115,11 +118,7 @@ void ofApp::init()
 	cam.setDrag(0.5);
 	ofSetVerticalSync(true);//开启垂直同步
 
-	/*pointLight.setPointLight();
-	pointLight.setPointLight();
-	pointLight.setDiffuseColor(ofFloatColor(1.0, 1.0, 1.0));
-	pointLight.setPosition(100, 0, 500);*/
-
+	
 	spotLight_Up.setSpotlight();
 	spotLight_Up.setPosition( 200,0, 500);
 	spotLight_Up.lookAt(ofPoint(0, 0, 0));
@@ -127,7 +126,7 @@ void ofApp::init()
 	spotLight_Up.setSpotConcentration(5.0);
 
 	spotLight_Down.setSpotlight();
-	spotLight_Down.setPosition( -200,0, -200);
+	spotLight_Down.setPosition( -200,0, 500);
 	spotLight_Down.lookAt(ofPoint(0, 0, 0));
 	spotLight_Down.setSpecularColor(ofFloatColor(0, 0, 1.0));
 	spotLight_Down.setSpotConcentration(5.0);
@@ -138,10 +137,9 @@ void ofApp::init()
 	ledspotLight.setSpecularColor(ofFloatColor(1.0, 0, 0));
 	ledspotLight.setSpotConcentration(5.0);
 
-	/*directionLight.setPosition(0, 0, 200);
-	directionLight.setDirectional();
-	directionLight.setOrientation(ofPoint(0, 180, 0));
-	directionLight.setSpecularColor(ofFloatColor(138.0 / 255,43.0 / 255,226.0/255));*/
+	areaLight.setAreaLight(100, 100);
+	areaLight.setPosition(0, -500, -199);
+	areaLight.setDiffuseColor(ofFloatColor(138.0/255, 43.0 / 255, 226.0 / 255));
 }
 //--------------------------------------------------------------
 void ofApp::reset()

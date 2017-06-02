@@ -41,7 +41,7 @@ private:
 		Platform platform;
 		ofEasyCam cam;
 
-		ofLight spotLight_Up,  pointLight, ledspotLight, spotLight_Down;
+		ofLight spotLight_Up,  pointLight, ledspotLight, spotLight_Down, directionLight, areaLight;
 		int STATE=FINDHOME;
 		enum STATE { FINDHOME, PRINTCYCLE, FINISH,FREE };
 		float homePosition=50;
