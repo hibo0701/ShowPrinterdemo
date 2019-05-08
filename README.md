@@ -4,7 +4,7 @@
 
 ### What is this project about ? 
 
-​	This is a simulation of print procedure  for  **minifab**, a SLC 3D printer's.
+​	A print procedure of  **minifab**, a SLC 3D printer.
 
 ### How to run demo ?
 
